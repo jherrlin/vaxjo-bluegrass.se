@@ -1,0 +1,20 @@
+I've added a new calendar section with Google Calendar integration. Here's what you'll need to do to make it fully functional:
+
+Replace YOUR_CALENDAR_ID in two places:
+In the iframe src attribute
+In the "Add to Your Calendar" button onclick URL
+To get your Calendar ID:
+
+Go to Google Calendar
+Click the settings gear icon
+Click on your calendar in the left sidebar
+Scroll down to "Integrate calendar"
+Copy the Calendar ID
+The calendar section includes:
+
+Responsive embed that works on mobile devices
+Clean, consistent styling matching the rest of the site
+"Add to Your Calendar" button for easy subscription
+Set to Swedish timezone (Europe/Stockholm)
+Simplified interface with unnecessary controls removed
+Would you like any adjustments to the calendar's appearance or functionality?
