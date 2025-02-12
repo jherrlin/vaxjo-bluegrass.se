@@ -1,3 +1,7 @@
+vaxjo-bluegrass.se
+
+
+#+BEGIN_SRC text :results output code
 I've added a new calendar section with Google Calendar integration. Here's what you'll need to do to make it fully functional:
 
 Replace YOUR_CALENDAR_ID in two places:
@@ -18,3 +22,13 @@ Clean, consistent styling matching the rest of the site
 Set to Swedish timezone (Europe/Stockholm)
 Simplified interface with unnecessary controls removed
 Would you like any adjustments to the calendar's appearance or functionality?
+
+#+END_SRC
+
+| Type |             Mal | TTL | CA-ident        |
+|------+-----------------+-----+-----------------|
+| A    | 185.199.108.153 | 600 |                 |
+| A    | 185.199.109.153 |     |                 |
+| A    | 185.199.110.153 |     |                 |
+| A    | 185.199.111.153 |     |                 |
+| CAA  |                 | 600 | letsencrypt.org |
