@@ -1,0 +1,13 @@
+{:deps     true
+ :http     {:port 8081}
+ :dev-http {8080 "./"}
+ :builds
+ {:frontend
+  {:target            :browser
+   :asset-path        "/js"
+   :output-dir        "./js"
+   :devtools          {:preloads [devtools.preload]}
+   :compiler-options  {:warnings-as-errors false
+                       :warnings           {:fn-deprecated false}}
+   :module-hash-names true
+   :modules           {:main {:init-fn vaxjobluegrass.main/init}}}}}
