@@ -1,6 +1,31 @@
 (ns vaxjobluegrass.main
-  (:require ["abcjs" :as abcjs]))
+  (:require ["abcjs" :as abcjs]
+            [reagent.dom.client :as rdc]
+            [clojure.edn :as edn]
+            [reagent.core :as r]))
 
+
+(def instruments
+  {"guitar"        {:instrument "guitar"
+                    :label      "Guitar (%T)"
+                    :tuning     ["E,", "A,", "D", "G", "B", "e"] ;; E2 A2 D3 G3 B3 E4
+                    :capo       0}
+   "guitar-dadgad" {:instrument "guitar"
+                    :label      "Guitar (%T)"
+                    :tuning     ["D,", "A,", "D", "G", "A", "d"]
+                    :capo       0}
+   "mandolin"      {:instrument "mandolin"
+                    :label      "Mandolin (%T)"
+                    :tuning     ["G,", "D", "A", "e"]
+                    :capo       0}
+   "mandola"       {:instrument "mandolin"
+                    :label      "Mandola (%T)"
+                    :tuning     ["C,", "G,", "D", "A"]
+                    :capo       0}})
+
+(defn ->tablature [s]
+  (when s
+    (get instruments s)))
 
 (def render-abc (get (js->clj abcjs) "renderAbc"))
 
@@ -20,22 +45,13 @@ T: B part
    | \"D\" defd \"A\" c2 ec | \"G\" BABc \"D\" BAFD | \"G\" GABG \"D\" F2 AF \" \\
    |1 \"A\" EDEF \"D\" D2 FE :|2 \"A\" EDEF \"D\" D4 || ")
 
-(defn whiskey-score []
+(defn whiskey-score [tab]
   (render-abc
    "whiskey-score"
    whiskey-abc
    (clj->js
-    {:responsive "resize"
-     :tablature  [
-                  ;; {:instrument "mandolin"
-                  ;;  :label      "Mandolin (%T)"
-                  ;;  :tuning     ["G,", "D", "A", "e"]
-                  ;;  :capo       0}
-                  ;; {:instrument "guitar"
-                  ;;  :label      "Guitar (%T)"
-                  ;;  :tuning     ["D,", "A,", "D", "G", "A", "d"]
-                  ;;  :capo       0}
-                  ]})))
+     (cond-> {:responsive "resize"}
+      tab (assoc :tablature [tab])))))
 
 (def cherokee-abc
 "
@@ -53,18 +69,13 @@ T: B part
    |  \"A\" efed cBAG    | A2 AB cd e2       | \"F#m\" effa fAaf | \"E\" efed cABc | \\
    |1 \"A\" A2 AB A2 ag :|2 \"A\" A2 AB A4 ||")
 
-(defn cherokee-score []
+(defn cherokee-score [tab]
   (render-abc
     "cherokee-score"
     cherokee-abc
     (clj->js
-      {:responsive "resize"
-       ;; :tablature [{:instrument "guitar"
-       ;;              :label "Guitar (%T)"
-       ;;              :tuning ["D,", "A,", "D", "G", "A", "d"]
-       ;;              :capo 0
-       ;;              }]
-       })))
+     (cond-> {:responsive "resize"}
+      tab (assoc :tablature [tab])))))
 
 ;; [M:2/4] http://www.lesession.co.uk/abc/abc_notation.htm
 
@@ -90,22 +101,52 @@ T: D part
 |  \"Am\" A2 Ac AGED  | E2 EG EDCD  | [M:2/4] EC DC | [M:4/4] C2 C2 C2 (3DCB, | A,2 A,2 A,4 :|
 ")
 
-(defn jerusalem-score []
+(defn jerusalem-score [tab]
   (render-abc
-    "jerusalem-score"
-    jerusalem-abc
-    (clj->js
-      {:responsive "resize"
-       ;; :tablature [{:instrument "guitar"
-       ;;              :label "Guitar (%T)"
-       ;;              :tuning ["D,", "A,", "D", "G", "A", "d"]
-       ;;              :capo 0
-       ;;              }]
-       })))
+   "jerusalem-score"
+   jerusalem-abc
+   (clj->js
+    (cond-> {:responsive "resize"}
+      tab (assoc :tablature [tab])))))
 
+(defn scores [state']
+  (whiskey-score (->tablature state'))
+  (cherokee-score (->tablature state'))
+  (jerusalem-score (->tablature state')))
+
+(defn ui []
+  (let [state (r/atom nil)]
+    (r/create-class
+     {:component-did-mount  #(scores @state)
+      :component-did-update #(scores @state)
+
+       ;; name your component for inclusion in error messages
+      :display-name "scores"
+
+       ;; note the keyword for this method
+      :reagent-render
+      (fn []
+        [:div
+         [:p "Välj ett instrument om du vill ha tabbar till noterna. "]
+         [:select {:value (prn-str (or @state "Select instrument"))
+                   :on-change (fn [evt]
+                                (let [value (-> evt .-target .-value edn/read-string)]
+                                  (reset! state (if (= value "Select instrument")
+                                                  nil
+                                                  value))))}
+          (for [t (concat ["Select instrument"] (keys instruments))]
+            ^{:key t}
+            [:option {:value (prn-str t)} t])]
+         [:div {:id "whiskey-score-one"}]
+         [:div {:id "cherokee-score-one"}]
+         [:div {:id "jerusalem-score-one"}]])})))
+
+(defonce root-container
+  (rdc/create-root (js/document.getElementById "app")))
+
+(defn mount-ui
+  []
+  (rdc/render root-container [ui]))
 
 (defn ^:dev/after-load init []
-  ;; (mount-ui)
-  (whiskey-score)
-  (cherokee-score)
-  (jerusalem-score))
+  (mount-ui))
