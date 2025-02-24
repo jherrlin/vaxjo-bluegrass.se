@@ -65,7 +65,7 @@ EF |: \"A\" A2 Ac BAFE  | ABAF E2 FG        | AGAB cdeA        | \"F#m\" effa f2
    |  \"D\" fefg  aAaf  | \"A\" efed cBAB   | \"E\" cBAc BAFE   \\
    |1 \"A\" AAAB A2 EF :|2 \"A\" AAAB A2 ag ||
 T: B part
-   |: \"D\" fefg aAaf    | \"A\" efed cAae   | \"D\" fefg aA e2  | \"A\" bc'c'd' c'eag | \"D\" fefg abaf |
+   |: \"D\" fefg aAaf    | \"A\" efed cAag   | \"D\" fefg aA e2  | \"A\" bc'c'd' c'eag | \"D\" fefg abaf |
    |  \"A\" efed cBAG    | A2 AB cd e2       | \"F#m\" effa fAaf | \"E\" efed cABc | \\
    |1 \"A\" A2 AB A2 ag :|2 \"A\" A2 AB A4 ||")
 
@@ -98,7 +98,7 @@ T: C part
 T: D part
 |: \"Am\" e2 a2 a2 g  | a2 b2 c'4   | \"C\" egga g2 ge | gc'ag edcd |
 |  \"Am\" eaag a2 ab  | c'abg  aged | e2 eg edcd | \"E\" edc A4 |
-|  \"Am\" A2 Ac AGED  | E2 EG EDCD  | [M:2/4] EC DC | [M:4/4] C2 C2 C2 (3DCB, | A,2 A,2 A,4 :|
+|  \"Am\" A2 Ac AGED  | E2 EG EDCD  | [M:2/4] EC DC | [M:4/4] A,2 A,2 A,2 (3DCB, | A,2 A,2 A,4 :|
 ")
 
 (defn jerusalem-score [tab]
