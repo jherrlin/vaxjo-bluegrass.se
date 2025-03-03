@@ -197,7 +197,7 @@ P: D
           [:button {:on-click #(swap! show-abc-state update :jerusalem not)} "ABC notation"]]]
 
         (when (get @show-abc-state :jerusalem)
-          [:pre cherokee-abc])
+          [:pre jerusalem-abc])
 
         [:div {:id "jerusalem-score"}]]])}))
 
