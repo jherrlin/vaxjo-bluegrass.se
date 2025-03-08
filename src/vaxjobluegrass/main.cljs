@@ -4,8 +4,57 @@
             [clojure.edn :as edn]
             [reagent.core :as r]))
 
-(def state (r/atom nil))
-(def show-abc-state (r/atom {}))
+;;
+;; State
+;;
+
+(defonce state (r/atom nil))
+(defonce show-abc-state (r/atom {}))
+(defonce visualObjs (r/atom {}))
+(defonce midiBuffer (atom nil))
+
+(def audio-context
+  (or js/window.AudioContext
+      js/window.webkitAudioContext
+      js/navigator.mozAudioContext
+      js/navigator.msAudioContext))
+
+(defn set-audio-context! [audio-context]
+  (set! js/window.AudioContext audio-context))
+
+(defn play-sound! [id]
+  (let [_             (set-audio-context! audio-context)
+        audio-context (new js/window.AudioContext)
+        visualObj     (get @visualObjs id)]
+    (when visualObj
+      (-> audio-context
+          (.resume)
+          (.then (fn []
+                   (let [_ (swap! midiBuffer (fn [buffer]
+                                               (try
+                                                 (.stop buffer)
+                                                 (catch js/Error _))
+                                               (new abcjs/synth.CreateSynth)))]
+                     (-> (.init @midiBuffer (clj->js {:visualObj              visualObj
+                                                      :audioContext           audio-context
+                                                      :millisecondsPerMeasure (.millisecondsPerMeasure visualObj)
+                                                      :options                {:swing false}}))
+                         (.then (fn [_]
+                                  (.prime @midiBuffer)))
+                         (.then (fn [_]
+                                  (.start @midiBuffer)
+                                  (js/Promise.resolve)))
+                         (.catch (fn [e]
+                                   (js/console.log "error:" e)))))))))))
+
+(defn stop-sound! []
+  (let [buffer @midiBuffer]
+    (when buffer (.stop buffer))))
+
+(comment
+  (play-sound! :whiskey)
+  (stop-sound!)
+  :-)
 
 
 (def instruments
@@ -30,7 +79,9 @@
   (when s
     (get instruments s)))
 
-(def render-abc (get (js->clj abcjs) "renderAbc"))
+(defn render-abc [{:keys [dom-id abc ops id]}]
+  (let [visualObj (abcjs/renderAbc dom-id abc ops)]
+    (swap! visualObjs assoc id (first visualObj))))
 
 (def whiskey-abc
   "
@@ -50,11 +101,12 @@ P: B
 
 (defn whiskey-score [tab]
   (render-abc
-   "whiskey-score"
-   whiskey-abc
-   (clj->js
-     (cond-> {:responsive "resize"}
-      tab (assoc :tablature [tab])))))
+   {:abc    whiskey-abc
+    :dom-id "whiskey-score"
+    :id     :whiskey
+    :ops    (clj->js
+             (cond-> {:responsive "resize"}
+               tab (assoc :tablature [tab])))}))
 
 (def cherokee-abc
 "
@@ -74,11 +126,12 @@ P: B
 
 (defn cherokee-score [tab]
   (render-abc
-    "cherokee-score"
-    cherokee-abc
-    (clj->js
-     (cond-> {:responsive "resize"}
-      tab (assoc :tablature [tab])))))
+   {:abc    cherokee-abc
+    :dom-id "cherokee-score"
+    :id     :cherokee
+    :ops    (clj->js
+             (cond-> {:responsive "resize"}
+               tab (assoc :tablature [tab])))}))
 
 ;; [M:2/4] http://www.lesession.co.uk/abc/abc_notation.htm
 
@@ -106,11 +159,12 @@ P: D
 
 (defn jerusalem-score [tab]
   (render-abc
-   "jerusalem-score"
-   jerusalem-abc
-   (clj->js
-    (cond-> {:responsive "resize"}
-      tab (assoc :tablature [tab])))))
+   {:abc    jerusalem-abc
+    :dom-id "jerusalem-score"
+    :id     :jerusalem
+    :ops    (clj->js
+             (cond-> {:responsive "resize"}
+               tab (assoc :tablature [tab])))}))
 
 (defn scores [state']
   (whiskey-score (->tablature state'))
@@ -158,7 +212,12 @@ P: D
         (when (get @show-abc-state :whiskey)
           [:pre whiskey-abc])
 
-        [:div {:id "whiskey-score"}]]
+        [:div {:id "whiskey-score"}]
+
+        [:div {:style {:display "flex"}}
+         [:button {:style    {:margin-right "1em"}
+                   :on-click (fn [_] (play-sound! :whiskey))} "Play"]
+         [:button {:on-click (fn [_] (stop-sound!))} "Stop"]]]
 
        [:br] [:br] [:hr] [:br] [:br]
 
@@ -178,7 +237,11 @@ P: D
         (when (get @show-abc-state :cherokee)
           [:pre cherokee-abc])
 
-        [:div {:id "cherokee-score"}]]
+        [:div {:id "cherokee-score"}]
+        [:div {:style {:display "flex"}}
+         [:button {:style    {:margin-right "1em"}
+                   :on-click (fn [_] (play-sound! :cherokee))} "Play"]
+         [:button {:on-click (fn [_] (stop-sound!))} "Stop"]]]
 
        [:br] [:br] [:hr] [:br] [:br]
 
@@ -199,7 +262,12 @@ P: D
         (when (get @show-abc-state :jerusalem)
           [:pre jerusalem-abc])
 
-        [:div {:id "jerusalem-score"}]]])}))
+        [:div {:id "jerusalem-score"}]
+
+        [:div {:style {:display "flex"}}
+         [:button {:style    {:margin-right "1em"}
+                   :on-click (fn [_] (play-sound! :jerusalem))} "Play"]
+         [:button {:on-click (fn [_] (stop-sound!))} "Stop"]]]])}))
 
 (defonce root-container
   (rdc/create-root (js/document.getElementById "app")))
