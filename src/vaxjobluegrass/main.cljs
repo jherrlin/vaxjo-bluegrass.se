@@ -166,20 +166,45 @@ P: D
              (cond-> {:responsive "resize"}
                tab (assoc :tablature [tab])))}))
 
+(def liberty-abc
+  "X: 1
+T: Liberty
+M: 4/4
+L: 1/8
+K: D
+P: A
+ag |: \"D\" f2 A2 f2 A2 |  fefg fedf  | \"G\" g2 B2 g2 B2 | gfga gfef |
+   |  \"D\" f2 A2 f2 A2 |  fefg fdef  | \"G\" (f/2g/2)fed \"A\" cABc |
+   |1 \"D\" dBAF D2 ag :|2 \"D\" dBAF D2 FG ||
+P: B
+   |: \"D\" A2 AB AFEF  | DFAd f2 d2 | A2 AB AFDF | \"A\" GD F2 E2 FG |
+   |  \"D\" A2 AB AFEF  | DFAd f2ef  | \"A\" (f/2g/2)fed cABc |
+   |1 \"D\" dBAF D2 FG :|2 \"D\" dBAF D4 ||")
+
+(defn liberty-score [tab]
+  (render-abc
+   {:abc    liberty-abc
+    :dom-id "liberty-score"
+    :id     :liberty
+    :ops    (clj->js
+             (cond-> {:responsive "resize"}
+               tab (assoc :tablature [tab])))}))
+
 (defn scores [state']
   (whiskey-score (->tablature state'))
   (cherokee-score (->tablature state'))
-  (jerusalem-score (->tablature state')))
+  (jerusalem-score (->tablature state'))
+  (liberty-score (->tablature state')))
 
 (defn ui []
   (r/create-class
    {:component-did-mount  #(scores @state)
     :component-did-update #(scores @state)
 
-       ;; name your component for inclusion in error messages
+    ;; name your component for inclusion in error messages
     :display-name "scores"
 
-       ;; note the keyword for this method
+    ;; note the keyword for this method
     :reagent-render
     (fn []
       [:div
@@ -267,7 +292,204 @@ P: D
         [:div {:style {:display "flex"}}
          [:button {:style    {:margin-right "1em"}
                    :on-click (fn [_] (play-sound! :jerusalem))} "Play"]
-         [:button {:on-click (fn [_] (stop-sound!))} "Stop"]]]])}))
+         [:button {:on-click (fn [_] (stop-sound!))} "Stop"]]]
+
+       [:br] [:br] [:hr] [:br] [:br]
+
+       [:div
+        [:h2 "Liberty"]
+        [:p "Struktur: AABB"]
+        [:br]
+        [:ul
+         [:li [:a {:href "https://www.youtube.com/watch?v=VznnaupyRzQ"} "Liberty"]]
+         [:li [:a {:href "https://www.youtube.com/watch?v=PkT7W8BTc9I"} "Liberty 80 BPM - bluegrass backing track"]]
+         [:li [:a {:href "https://www.youtube.com/watch?v=vIisdof5do4"} "Liberty 90 BPM - bluegrass backing track"]]
+         [:li [:a {:href "https://www.youtube.com/watch?v=vFbSVYsZ4EE"} "Liberty 100 BPM - bluegrass backing track"]]
+         [:li
+          [:button {:on-click #(swap! show-abc-state update :liberty not)} "ABC notation"]]]
+
+        (when (get @show-abc-state :liberty)
+          [:pre liberty-abc])
+
+        [:div {:id "liberty-score"}]
+
+        [:div {:style {:display "flex"}}
+         [:button {:style    {:margin-right "1em"}
+                   :on-click (fn [_] (play-sound! :liberty))} "Play"]
+         [:button {:on-click (fn [_] (stop-sound!))} "Stop"]]]
+
+       [:br] [:br] [:hr] [:br] [:br]
+
+       [:div
+        [:h2 "Blue Ridge Cabin Home"]
+        [:br]
+
+        [:pre
+         "
+| G | C | D7 | G |
+
+G                                 C
+There's a well beaten path in the old mountainside
+        D7                    G
+Where I wandered when I was a lad
+                            C
+And I wandered alone to the place I call home
+         D7                   G
+In those Blue Ridge hills far away
+
+                             C
+Oh I love those hills of old Virginia
+           D7                     G
+From those Blue Ridge hills I did roam
+                                    C
+When I die won't you bury me on the mountain
+    D7                               G
+Far away near my Blue Ridge mountain home
+
+
+- [Solo]
+
+
+Now my thoughts wander back to that ramshackle shack
+In those Blue Ridge hills far away
+Where my mother and dad were laid there to rest
+They are sleeping in peace together there
+
+
+- [Chorus] Oh I love those hills of old Virginia...
+
+- [Solo]
+
+
+I return to that old cabin home with the sigh
+I've been longing for days gone by
+When I die won't you bury me on that old mountain side
+Make my resting place upon the hills so high
+
+
+- [Chorus] Oh I love those hills of old Virginia...
+
+- [Solo]
+
+- [Chorus] Oh I love those hills of old Virginia...
+"]]
+
+       [:br] [:br] [:hr] [:br] [:br]
+
+       [:div
+        [:h2 "Katy Daley"]
+        [:br]
+
+        [:pre
+         "
+| G | G | G | G |
+| G | G | D | D |
+| G | G | G | G |
+| G | D | G | G |
+
+G
+With her old man she came from Tipperary
+G                         D
+In the pioneering days of '42
+G
+Her old man was shot in Tombstone City
+G                     D                 G
+For the making of his good old mountain dew
+
+G
+Oh Come on down the mountain Katy Daley
+G                              D
+Come on down the mountain Katy do
+G
+Can't you hear us calling Katy Daley
+G                     D                 G
+We want to drink your good old mountain dew
+
+- [Solo]
+
+Wake up and pay attention Katy Daley
+For I'm the judge that's gonna sentence you
+All the boys in court have drunk your whiskey
+To tell the truth I like a little too
+
+- [Chorus] Oh Come on down the mountain Katy Daley...
+
+- [Solo]
+
+So to the jail they took poor Katy Daley
+And pretty soon the gates were open wide
+Angels came for poor old Katy Daley
+Took her far across the great divide
+
+- [Chorus] Oh Come on down the mountain Katy Daley...
+
+- [Solo]
+
+- [Chorus] Oh Come on down the mountain Katy Daley..."]]
+
+       [:br] [:br] [:hr] [:br] [:br]
+
+       [:div
+        [:h2 "Wagon Wheel"]
+        [:br]
+
+        [:pre
+         "
+| A | E | F#m | D |
+| A | E | D   | D |
+
+A                         E
+Heading down south to the land of the pines
+    F#m                  D
+I'm thumbing my way into North Caroline
+A                       E                 D
+Staring up the road and pray to God I see headlights
+  A                         E
+I made it down the coast in seventeen hours
+F#m                     D
+Picking me a bouquet of dogwood flowers
+          A                         E           D
+And I'm a-hopin' for Raleigh, I can see my baby tonight
+
+   A                    E
+So rock me momma like a wagon wheel
+F#m               D
+Rock me momma any way you feel
+A       E   D
+Hey,  mamma rock me
+A                      E
+Rock me momma like the wind and the rain
+F#m                  D
+Rock me momma like a south bound train
+A       E   D
+Hey,  mamma rock me
+
+- [Solo]
+
+Running from the cold up in New England
+I was born to be a fiddler in an old time string band
+My baby plays a guitar, I pick a banjo now
+Oh, north country winters keep a-getting me down
+Lost my money playing poker so I had to leave town
+But I ain't turning back to living that old life no more
+
+- [Chorous] So rock me momma like a wagon wheel...
+
+- [Solo]
+
+Walkin' to the south out of Roanoke
+I caught a trucker out of Philly, had a nice long toke
+But he's a heading west from the Cumberland gap
+To Johnson City, Tennessee
+I gotta get a move on before the sun
+I hear my baby calling my name and I know that she's the only one
+And if I die in Raleigh at least I will die free
+
+- [Chorous] So rock me momma like a wagon wheel...
+
+- [Solo]
+
+- [Chorous] So rock me momma like a wagon wheel..."]]])}))
 
 (defonce root-container
   (rdc/create-root (js/document.getElementById "app")))
