@@ -323,7 +323,8 @@ P: B
         [:h2 "Blue Ridge Cabin Home"]
 
         [:ul
-         [:li [:a {:href "https://www.youtube.com/watch?v=gcZN9x4q4kg"} "Flatt & Scruggs - Blue Ridge Cabin Home"]]]
+         [:li [:a {:href "https://www.youtube.com/watch?v=gcZN9x4q4kg"} "Flatt & Scruggs - Blue Ridge Cabin Home"]]
+         [:li [:a {:href "https://www.youtube.com/watch?v=OPoey_5cCbc"} "Blue Ridge Cabin Home - bluegrass backing track Key of G"]]]
 
         [:br]
 
@@ -500,13 +501,15 @@ And if I die in Raleigh at least I will die free
 
 - [Chorous] So rock me momma like a wagon wheel..."]]
 
-
+       [:br] [:br] [:hr] [:br] [:br]
 
        [:div
         [:h2 "Shady Grove"]
 
         [:ul
-         [:li [:a {:href "https://www.youtube.com/watch?v=I0f-dCMSVKQ"} "Doc Watson - Shady Grove"]]]
+         [:li [:a {:href "https://www.youtube.com/watch?v=I0f-dCMSVKQ"} "Doc Watson - Shady Grove"]]
+         [:li [:a {:href "https://www.youtube.com/watch?v=ykL2JYGP3CM"} "Shady Grove - 80 BPM bluegrass backing track"]]
+         [:li [:a {:href "https://www.youtube.com/watch?v=es_szT-p5SU"} "Shady Grove - 90 BPM bluegrass backing track"]]]
 
         [:br]
 
@@ -556,7 +559,90 @@ And there ain't no girl in this old world that's prettier than mine.
 
 - [Solo]
 
-- [Chorous] Shady Grove, my little love..."]]])}))
+- [Chorous] Shady Grove, my little love..."]]
+
+
+
+       [:br] [:br] [:hr] [:br] [:br]
+
+       [:div
+        [:h2 "Roll in my sweet baby's arms"]
+
+        [:ul
+
+         [:li [:a {:href "https://www.youtube.com/watch?v=4xQjzsxbcyU"} "Nashville Jam \"Roll In My Sweet Baby's Arms\""]]
+         [:li [:a {:href "https://www.youtube.com/watch?v=UHmpXAs1n8M"} "Roll In My Sweet Baby's Arms 90 bpm bluegrass backing track"]]
+         [:li [:a {:href "https://www.youtube.com/watch?v=eV5gP8dbwCA"} "Roll In My Sweet Baby's Arms 100 bpm bluegrass backing track"]]
+         [:li [:a {:href "https://www.youtube.com/watch?v=8ryXdWUuUoc"} "Roll In My Sweet Baby's Arms 110 bpm bluegrass backing track"]]]
+
+        [:br]
+
+        [:pre
+         "
+| G | G | G   | D |
+| G | C | G D | G |
+
+G
+I ain't gonna work on the railroad
+
+                          D
+I ain't gonna work on the farm
+
+G                                 C
+Gonna lay down the shack 'til the mail train comes back
+
+G                    D           G
+And I'll roll in my sweet baby's arms.
+
+
+G
+Roll in my sweet baby's arms
+
+                        D
+Roll in my sweet baby's arms
+
+G                           C
+Lay down the shack 'til the mail train comes back
+
+G                   D            G
+And I'll roll in my sweet baby's arms.
+
+
+- [Chorous] Roll in my sweet baby's arms...
+
+- [Solo]
+
+Now where were you last Friday night
+While I was a lying in jail
+Walkin' the streets with another man
+Wouldn't even go my bail.
+
+- [Chorous] Roll in my sweet baby's arms...
+
+- [Solo]
+
+I know that your parents don't like me
+They drove me away from the door
+If I had my life to live over
+I'd never go there any more.
+
+- [Chorous] Roll in my sweet baby's arms...
+
+- [Solo]
+
+Mama's a ginger cake baker
+Sister she can weave and she can spin
+Daddy's got an interest in that ol' cotton mill
+Just watching that money roll in.
+
+- [Chorous] Roll in my sweet baby's arms...
+
+- [Solo]
+
+- [Chorous] Roll in my sweet baby's arms..."]]
+
+
+       ])}))
 
 (defonce root-container
   (rdc/create-root (js/document.getElementById "app")))
