@@ -56,7 +56,6 @@
   (stop-sound!)
   :-)
 
-
 (def instruments
   {"guitar"        {:instrument "guitar"
                     :label      "Guitar (%T)"
@@ -322,6 +321,10 @@ P: B
 
        [:div
         [:h2 "Blue Ridge Cabin Home"]
+
+        [:ul
+         [:li [:a {:href "https://www.youtube.com/watch?v=gcZN9x4q4kg"} "Flatt & Scruggs - Blue Ridge Cabin Home"]]]
+
         [:br]
 
         [:pre
@@ -378,31 +381,33 @@ Make my resting place upon the hills so high
 
        [:div
         [:h2 "Katy Daley"]
+
+        [:ul
+         [:li [:a {:href "https://www.youtube.com/watch?v=5CMj2yd-W1E"} "Katy Daley"]]]
+
         [:br]
 
         [:pre
          "
-| G | G | G | G |
-| G | G | D | D |
-| G | G | G | G |
-| G | D | G | G |
+| G | D |
+
 
 G
 With her old man she came from Tipperary
-G                         D
+                          D
 In the pioneering days of '42
-G
+                                  D7
 Her old man was shot in Tombstone City
-G                     D                 G
+                                        G
 For the making of his good old mountain dew
 
-G
+   G
 Oh Come on down the mountain Katy Daley
-G                              D
+                               D
 Come on down the mountain Katy do
-G
+                               D7
 Can't you hear us calling Katy Daley
-G                     D                 G
+                                        G
 We want to drink your good old mountain dew
 
 - [Solo]
@@ -431,6 +436,10 @@ Took her far across the great divide
 
        [:div
         [:h2 "Wagon Wheel"]
+
+        [:ul
+         [:li [:a {:href "https://www.youtube.com/watch?v=u6TxewbL9BU"} "Old Crow Medicine Show - Wagon Wheel"]]]
+
         [:br]
 
         [:pre
@@ -489,7 +498,65 @@ And if I die in Raleigh at least I will die free
 
 - [Solo]
 
-- [Chorous] So rock me momma like a wagon wheel..."]]])}))
+- [Chorous] So rock me momma like a wagon wheel..."]]
+
+
+
+       [:div
+        [:h2 "Shady Grove"]
+
+        [:ul
+         [:li [:a {:href "https://www.youtube.com/watch?v=I0f-dCMSVKQ"} "Doc Watson - Shady Grove"]]]
+
+        [:br]
+
+        [:pre
+         "| DM | C | DM | F | C | Dm |
+
+
+Dm           C              Dm
+Shady Grove, my little love Shady Grove I say
+
+F            C                               Dm
+Shady Grove, my little love. I'm bound to go away.
+
+
+Cheeks as red as a blooming rose and eyes are the prettiest brown.
+She's the darling of my heart, sweetest little girl in town
+
+- [Chorous] Shady Grove, my little love...
+
+- [Solo]
+
+I wish I had a big fine horse and corn to feed him on.
+And Shady Grove to stay at home and feed him while I'm gone.
+
+- [Chorous] Shady Grove, my little love...
+
+- [Solo]
+
+Went to see my Shady Grove, she was standing in the door.
+Her shoes and stockin's in her hand and her little bare feet on the floor.
+
+- [Chorous] Shady Grove, my little love...
+
+- [Solo]
+
+When I was a little boy I wanted a Barlow knife.
+And now I want little Shady Grove to say she'll be my wife.
+
+- [Chorous] Shady Grove, my little love...
+
+- [Solo]
+
+Kiss from pretty little Shady Grove is sweet as brandy wine.
+And there ain't no girl in this old world that's prettier than mine.
+
+- [Chorous] Shady Grove, my little love...
+
+- [Solo]
+
+- [Chorous] Shady Grove, my little love..."]]])}))
 
 (defonce root-container
   (rdc/create-root (js/document.getElementById "app")))
