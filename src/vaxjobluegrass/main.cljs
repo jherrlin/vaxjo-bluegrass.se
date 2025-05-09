@@ -514,7 +514,7 @@ And if I die in Raleigh at least I will die free
         [:br]
 
         [:pre
-         "| DM | C | DM | F | C | Dm |
+         "| Dm | C | Dm | F | C | Dm |
 
 
 Dm           C              Dm
